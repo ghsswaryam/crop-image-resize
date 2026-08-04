@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "112307850441",
+    "project_id": "multiimagecroptool",
+    "storage_bucket": "multiimagecroptool.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:112307850441:android:fad90193e2fc5835571118",
+        "android_client_info": {
+          "package_name": "com.gshabbir.multiimagecroptool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "112307850441-i03tgeja2a26u9gckvsuav0c96ihj2lc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gshabbir.multiimagecroptool",
+            "certificate_hash": "eeebfcd580bc158e1233fe00fa26eb1d25aa4036"
+          }
+        },
+        {
+          "client_id": "112307850441-qjcthmr9cm1u1dvthlp1upld5i9pssu5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq1sDiOp1pn9GEeJohMZKU5edR3mtFtUA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "112307850441-qjcthmr9cm1u1dvthlp1upld5i9pssu5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

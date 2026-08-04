@@ -1,0 +1,12 @@
+# This file configures the analyzer, which statically analyzes Dart code to
+# check for errors, warnings, and lints.
+
+# 🌟 ہم نے اوپر سے 'include:' پیکیج ہٹا دیا ہے تاکہ نامعلوم رول لوڈ ہی نہ ہو
+
+linter:
+  # پراجیکٹ کے رولز کو یہاں فکس کر دیا گیا ہے
+  rules:
+    avoid_print: false
+    prefer_const_constructors: true
+    prefer_final_fields: true
+    avoid_unnecessary_containers: true
