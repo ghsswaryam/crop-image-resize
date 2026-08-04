@@ -26,9 +26,9 @@ jobs:
         run: flutter create --platforms=windows .
 
       - name: Build Windows EXE
-        run: flutter build windows --release -v
+        run: flutter build windows --release
         env:
-          PlatformToolset: v143
+          CL: /D_SILENCE_EXPERIMENTAL_COROUTINE_DEPRECATION_WARNINGS
 
       - name: Upload EXE Artifact
         uses: actions/upload-artifact@v4
