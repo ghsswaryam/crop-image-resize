@@ -1,0 +1,30 @@
+workflows:
+  windows-release:
+    name: Windows Release Build
+    instance_type: windows_x2 
+    environment:
+      flutter: stable
+    scripts:
+      - name: Enable Windows desktop
+        script: flutter config --enable-windows-desktop
+
+      - name: Generate missing windows folder
+        script: flutter create --platforms=windows .
+
+      - name: Get Flutter packages
+        script: flutter pub get
+
+      - name: Build Windows Exe
+        script: flutter build windows --release
+
+      - name: Create MSIX Installer (Optional)
+        script: flutter pub run msix:create
+
+      - name: Zip the Exe folder
+        script: |
+          cd build/windows/x64/runner/Release
+          7z a -r ../release.zip ./*
+
+    artifacts:
+      - build/windows/x64/runner/release.zip
+      - build/windows/x64/runner/Release/*.msix
