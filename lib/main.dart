@@ -1,5 +1,5 @@
+// lib/main.dart
 import 'dart:async';
-import 'dart:io' show Platform;
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
@@ -14,47 +14,36 @@ import 'screens/home_screen.dart';
 import 'screens/registration_screen.dart';
 import 'widgets/force_update_dialog.dart';
 
-// 🌟 1. بیک گراؤنڈ میسج ہینڈلر (جب ایپ بند یا کلوز ہو - صرف موبائل کے لیے)
+// 🌟 1. بیک گراؤنڈ میسج ہینڈلر (جب ایپ بند یا کلوز ہو)
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-    await Firebase.initializeApp();
-    print("Background message received: ${message.messageId}");
-  }
+  await Firebase.initializeApp();
+  print("Background message received: ${message.messageId}");
 }
 
 Future<void> main() async {
-  // Check if platform supports Firebase/AdMob (Android/iOS)
-  final bool isMobile = !kIsWeb && (Platform.isAndroid || Platform.isIOS);
-
-  if (isMobile) {
-    runZonedGuarded<Future<void>>(() async {
-      WidgetsFlutterBinding.ensureInitialized();
-
-      await Firebase.initializeApp();
-
-      // 🌟 2. بیک گراؤنڈ ہینڈلر رجسٹر کریں
-      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
-      // 🌟 Crashlytics: catch Flutter framework errors
-      FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
-      // 🌟 Crashlytics: catch errors outside the Flutter framework (async, isolates)
-      PlatformDispatcher.instance.onError = (error, stack) {
-        FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-        return true;
-      };
-
-      await MobileAds.instance.initialize(); // 🌟 AdMob
-
-      runApp(const MyApp());
-    }, (error, stack) {
-      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    });
-  } else {
-    // Windows, Linux, macOS ke liye direct app run hogi bina Firebase/AdMob ke
+  runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    await Firebase.initializeApp();
+
+    // 🌟 2. بیک گراؤنڈ ہینڈلر رجسٹر کریں
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+    // 🌟 Crashlytics: catch Flutter framework errors
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    // 🌟 Crashlytics: catch errors outside the Flutter framework (async, isolates)
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+
+    await MobileAds.instance.initialize(); // 🌟 AdMob
+
     runApp(const MyApp());
-  }
+  }, (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -69,22 +58,20 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
 
-    // Sirf mobile (Android/iOS) par Firebase Messaging chalayein
-    if (!kIsWeb && (Platform.isAndroid || Platform.isIOS)) {
-      // 🌟 3. ٹاپک کو خود بخود جوائن (Subscribe) کرنے کا کوڈ
-      FirebaseMessaging.instance.subscribeToTopic('all_users').then((_) {
-        print("Subscribed to all_users topic successfully!");
-      });
+    // 🌟 3. ٹاپک کو خود بخود جوائن (Subscribe) کرنے کا کوڈ
+    FirebaseMessaging.instance.subscribeToTopic('all_users').then((_) {
+      print("Subscribed to all_users topic successfully!");
+    });
 
-      // 🌟 4. جب ایپ کھلی ہو (Foreground) تب نوٹیفیکیشن ریسیو کرنے کے لیے
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print('Foreground message data: ${message.notification?.title}');
-        
-        if (message.notification != null) {
-          print('Message also contained a notification: ${message.notification?.body}');
-        }
-      });
-    }
+    // 🌟 4. جب ایپ کھلی ہو (Foreground) تب نوٹیفیکیشن ریسیو کرنے کے لیے
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('Foreground message data: ${message.notification?.title}');
+      
+      if (message.notification != null) {
+        print('Message also contained a notification: ${message.notification?.body}');
+        // یہاں آپ چاہیں تو کوئی کسٹم سنیک بار یا ڈائیلاگ دکھا سکتے ہیں
+      }
+    });
   }
 
   @override
