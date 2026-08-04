@@ -26,7 +26,7 @@ jobs:
         run: flutter create --platforms=windows .
 
       - name: Build Windows EXE
-        run: flutter build windows --release
+        run: flutter build windows --release -v
         env:
           PlatformToolset: v143
 
