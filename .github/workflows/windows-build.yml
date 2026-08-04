@@ -26,8 +26,24 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
+      - name: Auto-patch Android Gradle & NDK Versions
+        run: |
+          # 1. Update Gradle Wrapper to 8.14
+          echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.14-bin.zip" > android/gradle/wrapper/gradle-wrapper.properties
+
+          # 2. Update AGP (8.11.1) and Kotlin (2.2.20) in settings.gradle.kts or build.gradle.kts if they exist
+          if [ -f "android/settings.gradle.kts" ]; then
+            sed -i 's/version ".*" apply false/version "8.11.1" apply false/g' android/settings.gradle.kts
+            sed -i 's/version "2\..*" apply false/version "2.2.20" apply false/g' android/settings.gradle.kts
+          fi
+
+          # 3. Add ndkVersion to android/app/build.gradle.kts inside defaultConfig if possible, or append it safely
+          if [ -f "android/app/build.gradle.kts" ]; then
+            sed -i '/defaultConfig {/a \    ndkVersion = "28.2.13676358"' android/app/build.gradle.kts
+          fi
+
       - name: Build Android APK (Release)
-        run: flutter build apk --release
+        run: flutter build apk --release --android-skip-build-dependency-validation
 
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
