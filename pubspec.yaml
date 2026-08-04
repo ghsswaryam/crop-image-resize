@@ -1,11 +1,9 @@
-name: multiimagecroptool
+name: multi_image_crop_and_resizer
 description: "طلبہ کی پاسپورٹ سائز تصاویر کراپ، ریسائز اور گرڈ بنانے کی ایپ - غلام شبیر"
 publish_to: 'none'
-version: 1.0.1+1
-
+version: 1.0.0+1
 environment:
   sdk: '>=3.3.0 <4.0.0'
-
 dependencies:
   flutter:
     sdk: flutter
@@ -23,21 +21,15 @@ dependencies:
   uuid: ^4.4.0
   crypto: ^3.0.3
   audioplayers: ^6.0.0
-  
-  # Upgraded to version 12 to pull modern permission_handler_windows compatible with MSVC
-  permission_handler: ^12.0.1
-  
+  permission_handler: ^11.3.0
   flutter_image_compress: ^2.3.0
   flutter_file_dialog: ^3.0.3
-  
-  # Firebase packages
-  firebase_core: ^4.12.1
-  firebase_auth: ^6.5.6
-  google_sign_in: ^6.2.1
-  cloud_firestore: ^6.8.0
-  firebase_crashlytics: ^5.2.6
-  firebase_messaging: ^16.5.0
-  
+  firebase_core: ^3.8.0
+  firebase_auth: ^5.0.0
+  google_sign_in: ^6.2.0
+  cloud_firestore: ^5.6.0
+  firebase_crashlytics: ^4.2.0
+  firebase_messaging: ^15.2.1
   shared_preferences: ^2.3.3
   connectivity_plus: ^6.1.0
   device_info_plus: ^11.2.0
@@ -45,14 +37,12 @@ dependencies:
   url_launcher: ^6.3.1
   google_mobile_ads: ^5.2.0
   marquee: ^2.2.3 
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^6.0.0
-  flutter_launcher_icons: ^0.14.4
+  flutter_lints: ^3.0.2
+  flutter_launcher_icons: ^0.13.1
   build_runner: ^2.4.13
-
 flutter:
   uses-material-design: true
   fonts:
@@ -65,9 +55,3 @@ flutter:
     - assets/images/ic_launcher.png
     - assets/images/google.png
     - assets/click.mp3
-
-flutter_launcher_icons:
-  image_path: "assets/images/ic_launcher.png"
-  android: "launcher_icon"
-  ios: true
-  min_sdk_android: 21
