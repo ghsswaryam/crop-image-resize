@@ -18,8 +18,8 @@ pluginManagement {
 
 plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
-    id("com.android.application") version "8.3.2" apply false // 👈 یہاں ہم نے ورژن 8.3.2 فکس کر دیا ہے
-    id("org.jetbrains.kotlin.android") version "1.9.24" apply false
+    id("com.android.application") version "8.7.3" apply false // 👈 یہاں ہم نے ورژن 8.3.2 فکس کر دیا ہے
+    id("org.jetbrains.kotlin.android") version "2.0.21" apply false
     id("com.google.gms.google-services") version "4.4.2" apply false   // 🌟 نئی لائن[span_1](start_span)[span_1](end_span)
 }
 
