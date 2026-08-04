@@ -26,26 +26,25 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Force Fix Android Gradle, Kotlin & NDK Versions
+      - name: Resolve Gradle Version Conflict & NDK
         run: |
           # 1. Update Gradle Wrapper to 8.14
           echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.14-bin.zip" > android/gradle/wrapper/gradle-wrapper.properties
 
-          # 2. Fix settings.gradle.kts completely
+          # 2. Ensure settings.gradle.kts has the correct versions (8.11.1 & 2.2.20)
           if [ -f "android/settings.gradle.kts" ]; then
-            sed -i 's/version ".*" apply false/version "8.11.1" apply false/g' android/settings.gradle.kts
+            sed -i 's/id("com.android.application") version ".*"/id("com.android.application") version "8.11.1"/g' android/settings.gradle.kts
             sed -i 's/id("org.jetbrains.kotlin.android") version ".*"/id("org.jetbrains.kotlin.android") version "2.2.20"/g' android/settings.gradle.kts
           fi
 
-          # 3. Clean or update build.gradle.kts to avoid version conflicts
+          # 3. Completely remove conflicting plugins block from android/build.gradle.kts if it exists
           if [ -f "android/build.gradle.kts" ]; then
-            sed -i 's/version ".*"/version "8.11.1"/g' android/build.gradle.kts
-            sed -i 's/version "2\..*"/version "2.2.20"/g' android/build.gradle.kts
+            # Clear or comment out the plugins block to prevent classpath conflict
+            sed -i '/plugins {/,/}/d' android/build.gradle.kts
           fi
 
           # 4. Add ndkVersion safely to android/app/build.gradle.kts
           if [ -f "android/app/build.gradle.kts" ]; then
-            # Remove any existing ndkVersion first to avoid duplicates
             sed -i '/ndkVersion/d' android/app/build.gradle.kts
             sed -i '/defaultConfig {/a \    ndkVersion = "28.2.13676358"' android/app/build.gradle.kts
           fi
