@@ -33,7 +33,7 @@ dependencies:
   google_sign_in: ^6.2.1
   cloud_firestore: ^6.8.0
   firebase_crashlytics: ^5.2.6
-  firebase_messaging: ^15.2.4
+  firebase_messaging: ^16.5.0
   
   shared_preferences: ^2.3.3
   connectivity_plus: ^6.1.0
