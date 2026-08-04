@@ -23,11 +23,14 @@ dependencies:
   uuid: ^4.4.0
   crypto: ^3.0.3
   audioplayers: ^6.0.0
-  permission_handler: ^11.3.0
+  
+  # Upgraded to latest version to fix Windows MSVC C++ coroutine error
+  permission_handler: ^11.4.0
+  
   flutter_image_compress: ^2.3.0
   flutter_file_dialog: ^3.0.3
   
-  # Upgraded Firebase packages to modern versions that fix CMake/Windows build issues
+  # Firebase packages
   firebase_core: ^4.12.1
   firebase_auth: ^6.5.6
   google_sign_in: ^6.2.1
