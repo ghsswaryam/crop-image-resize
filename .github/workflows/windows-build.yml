@@ -22,9 +22,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Generate missing windows folder
-        run: flutter create --platforms=windows .
-
       - name: Build Windows EXE
         run: flutter build windows --release
 
