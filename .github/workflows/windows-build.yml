@@ -26,18 +26,19 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
 
-      - name: Auto-patch Android Gradle & NDK Versions
+      - name: Auto-patch Android Gradle & NDK Versions Correctly
         run: |
           # 1. Update Gradle Wrapper to 8.14
           echo "distributionUrl=https\://services.gradle.org/distributions/gradle-8.14-bin.zip" > android/gradle/wrapper/gradle-wrapper.properties
 
-          # 2. Update AGP (8.11.1) and Kotlin (2.2.20) in settings.gradle.kts or build.gradle.kts if they exist
+          # 2. Fix versions properly in settings.gradle.kts if it exists
           if [ -f "android/settings.gradle.kts" ]; then
-            sed -i 's/version ".*" apply false/version "8.11.1" apply false/g' android/settings.gradle.kts
-            sed -i 's/version "2\..*" apply false/version "2.2.20" apply false/g' android/settings.gradle.kts
+            # Set AGP to 8.11.1 and Kotlin to 2.2.20 explicitly without mixing them up
+            sed -i 's/id("com.android.application") version ".*"/id("com.android.application") version "8.11.1"/g' android/settings.gradle.kts
+            sed -i 's/id("org.jetbrains.kotlin.android") version ".*"/id("org.jetbrains.kotlin.android") version "2.2.20"/g' android/settings.gradle.kts
           fi
 
-          # 3. Add ndkVersion to android/app/build.gradle.kts inside defaultConfig if possible, or append it safely
+          # 3. Add ndkVersion to android/app/build.gradle.kts inside defaultConfig safely
           if [ -f "android/app/build.gradle.kts" ]; then
             sed -i '/defaultConfig {/a \    ndkVersion = "28.2.13676358"' android/app/build.gradle.kts
           fi
